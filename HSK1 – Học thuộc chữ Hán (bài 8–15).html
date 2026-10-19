@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HSK1 – Học thuộc chữ Hán (bài 8–15)</title>
+<style>
+:root{--bg:#f6f1e7;--card:#fffdf8;--ink:#1f1b16;--mut:#7a6f60;--line:#ded3bf;--red:#b3261e;--ok:#2e7d4f;--bad:#b3261e;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17140f;--card:#211d16;--ink:#f1e9d8;--mut:#a89c85;--line:#3a3327;--red:#ff7a6e;--ok:#6fcf97;--bad:#ff7a6e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17140f;--card:#211d16;--ink:#f1e9d8;--mut:#a89c85;--line:#3a3327;--red:#ff7a6e;--ok:#6fcf97;--bad:#ff7a6e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.han{font-family:"Songti SC","Noto Serif CJK SC","Noto Serif SC","SimSun",serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:4px 0 12px}h1 span{color:var(--red)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+button.on{background:var(--red);color:#fff;border-color:var(--red)}
+.sub button{padding:6px 10px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:12px 0}
+.big{font-size:84px;line-height:1.15;text-align:center;margin:8px 0}
+.mid{font-size:30px;text-align:center}
+.c{text-align:center}.mut{color:var(--mut);font-size:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.opts button{font-size:18px;padding:12px}
+.ok{background:var(--ok)!important;color:#fff!important}.no{background:var(--bad)!important;color:#fff!important}
+input{font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.grid button{min-height:56px;font-size:18px}
+.done{opacity:.35;pointer-events:none}.sel{outline:2px solid var(--red)}
+.pc{display:inline-block;margin:3px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:20px;background:var(--bg)}
+.ans{min-height:48px;border-bottom:2px solid var(--line);margin:8px 0;font-size:22px}
+.g{border-left:4px solid var(--red);padding-left:10px;margin:10px 0}
+.cell{position:relative;border:2px solid var(--red);border-radius:6px;background-color:var(--card);background-image:linear-gradient(transparent calc(50% - .5px),var(--line) calc(50% - .5px),var(--line) calc(50% + .5px),transparent calc(50% + .5px)),linear-gradient(90deg,transparent calc(50% - .5px),var(--line) calc(50% - .5px),var(--line) calc(50% + .5px),transparent calc(50% + .5px));-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.cell canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.cell .g{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--ink);transition:opacity .2s}
+</style>
+</head>
+<body>
+<main>
+<h1>HSK 1 · <span class="han">学汉字</span> — bài 8 đến 15</h1>
+<div class="tabs" id="tests"></div>
+<div class="tabs sub" id="modes"></div>
+<div id="v"></div>
+</main>
+<script>
+const D={
+8:{v:`在|zài|ở, tại;学校|xuéxiào|trường học;书店|shūdiàn|hiệu sách;前|qián|phía trước;能|néng|có thể;到|dào|đến;午饭|wǔfàn|bữa trưa;房间|fángjiān|căn phòng;外|wài|bên ngoài;只|zhǐ|con (lượng từ động vật);小|xiǎo|nhỏ;猫|māo|con mèo;没|méi|không, chưa;看见|kànjiàn|nhìn thấy;桌子|zhuōzi|cái bàn;下|xià|dưới;漂亮|piàoliang|xinh đẹp;饭|fàn|cơm, bữa ăn;大|dà|to, lớn;病人|bìngrén|bệnh nhân;多|duō|nhiều;医生|yīshēng|bác sĩ;工作|gōngzuò|làm việc, công việc`,
+g:`方位词 上、下、里、外、前、后|từ chỉ phương hướng, vị trí|房间里有一只小猫。;介词“在”|“在”+nơi chốn đứng trước động từ: làm gì ở đâu|我在学校吃午饭。;能愿动词“能”|“能”+động từ: có khả năng / có điều kiện làm gì|下午两点你能到吗？`,
+s:`房间外有一只小猫。|Fángjiān wài yǒu yì zhī xiǎo māo.;它在桌子下呢。|Tā zài zhuōzi xià ne.;我们在哪儿见呢？|Wǒmen zài nǎr jiàn ne?;我爸爸也在医院工作。|Wǒ bàba yě zài yīyuàn gōngzuò.;我在学校吃午饭。|Wǒ zài xuéxiào chī wǔfàn.`},
+9:{v:`前边|qiánbian|phía trước;边|biān|bên, phía;家|jiā|nhà, quán (lượng từ);那个|nàge|cái đó, kia;外边|wàibian|bên ngoài;椅子|yǐzi|cái ghế;上|shàng|trên;本|běn|quyển (lượng từ sách);书|shū|sách;那|nà|đó, kia;第|dì|thứ (số thứ tự);学习|xuéxí|học tập;白天|báitiān|ban ngày;读书|dúshū|đọc sách;电视|diànshì|tivi;狗|gǒu|con chó;唱|chàng|hát;歌|gē|bài hát;好听|hǎotīng|hay, dễ nghe;玩|wán|chơi;朋友|péngyou|bạn bè;和|hé|và;做|zuò|làm`,
+g:`存现句 有 / 是|địa điểm + 有/是 + người/vật (phủ định dùng 没有 / 不是)|学校前边有一家电影院。;时间词 + 处所词|làm trạng ngữ: thời gian đứng trước nơi chốn|我们七点在电影院外边见面。;第 + số (+ lượng từ)|chỉ số thứ tự|这是我的第二本中文书。`,
+s:`学校前边有一家电影院。|Xuéxiào qiánbian yǒu yì jiā diànyǐngyuàn.;我们七点在电影院外边见。|Wǒmen qī diǎn zài diànyǐngyuàn wàibian jiàn.;椅子上有一本中文书。|Yǐzi shang yǒu yì běn Zhōngwén shū.;这是我的第二本中文书。|Zhè shì wǒ de dì-èr běn Zhōngwén shū.;我明天上午在学校学习。|Wǒ míngtiān shàngwǔ zài xuéxiào xuéxí.`},
+10:{v:`杯子|bēizi|cái cốc;售货员|shòuhuòyuán|nhân viên bán hàng;这边|zhèbiān|bên này;钱|qián|tiền;这些|zhèxiē|những cái này;块|kuài|đồng (khẩu ngữ);那些|nàxiē|những cái kia;这儿|zhèr|ở đây;水果|shuǐguǒ|hoa quả;少|shǎo|ít;斤|jīn|cân (500g);苹果|píngguǒ|quả táo;便宜|piányi|rẻ;商店|shāngdiàn|cửa hàng;衣服|yīfu|quần áo;件|jiàn|cái, chiếc (áo);元|yuán|đồng (tệ);怎么样|zěnmeyàng|thế nào;贵|guì|đắt;穿|chuān|mặc;女|nǚ|nữ;男|nán|nam;那儿|nàr|ở đó`,
+g:`钱数的表达|元/块 → 角/毛 → 分|这些五块钱一个。;形容词谓语句|tính từ làm vị ngữ, thường có 很/真/不 phía trước|这儿的水果真不少！;疑问代词“怎么样”|hỏi nhận xét, tình hình: …thế nào?|这件一百元，怎么样？`,
+s:`请问，有杯子吗？|Qǐngwèn, yǒu bēizi ma?;多少钱一个？|Duōshao qián yí gè?;苹果三块五一斤。|Píngguǒ sān kuài wǔ yì jīn.;这儿的苹果真便宜！|Zhèr de píngguǒ zhēn piányi!;这件一百元，怎么样？|Zhè jiàn yì bǎi yuán, zěnmeyàng?`},
+11:{v:`时候|shíhou|lúc, khi;饭店|fàndiàn|nhà hàng, khách sạn;知道|zhīdào|biết;正在|zhèngzài|đang;找|zhǎo|tìm;开车|kāichē|lái xe;车|chē|xe;读|dú|học, đọc;大学|dàxué|đại học;大学生|dàxuéshēng|sinh viên;学|xué|học;医|yī|y học;弟弟|dìdi|em trai;睡觉|shuìjiào|đi ngủ;起床|qǐchuáng|thức dậy;说|shuō|nói;问|wèn|hỏi;昨天|zuótiān|hôm qua;小朋友|xiǎopéngyǒu|em bé, trẻ nhỏ;哪里|nǎlǐ|ở đâu;那里|nàlǐ|ở đó;对|duì|đúng`,
+g:`正反问|V不V / V没V…? (động từ dùng 不/没, tính từ dùng 不)|你开车没开车？;时间副词“在/正在”|在/正在 + động từ (+呢): đang làm gì|我们读书呢。;能愿动词“要”|“要”+động từ: muốn / sẽ làm gì|刘明要去医院加班。`,
+s:`你什么时候能到饭店？|Nǐ shénme shíhou néng dào fàndiàn?;你开车没开车？|Nǐ kāichē méi kāichē?;我没开车，坐车呢。|Wǒ méi kāichē, zuò chē ne.;你还在读大学吗？|Nǐ hái zài dú dàxué ma?;我读大学呢，还是大学生。|Wǒ dú dàxué ne, hái shì dàxuéshēng.`},
+12:{v:`天气|tiānqì|thời tiết;这里|zhèlǐ|ở đây;天|tiān|trời, ngày;下雨|xià yǔ|trời mưa;雨|yǔ|mưa;有点儿|yǒudiǎnr|hơi, một chút;觉得|juéde|cảm thấy;冷|lěng|lạnh;热|rè|nóng;雪|xuě|tuyết;来|lái|đến;公司|gōngsī|công ty;生病|shēngbìng|bị bệnh;看病|kànbìng|đi khám bệnh;病|bìng|bệnh;药|yào|thuốc;水|shuǐ|nước;喝|hē|uống;回|huí|về;再|zài|lại, nữa;一点儿|yìdiǎnr|một chút`,
+g:`非主谓句|câu không phân chủ - vị, dùng nhiều trong khẩu ngữ|下雨了。;语气助词“了(1)”|“了” cuối câu: có thay đổi, tình huống mới (phủ định dùng 没, bỏ 了)|十二点了，吃午饭吧。;“太……了”|quá…, rất…|这个杯子太小了。`,
+s:`今天天气怎么样？|Jīntiān tiānqì zěnmeyàng?;下雨了。|Xià yǔ le.;昨天下雪了。|Zuótiān xià xuě le.;太冷了。|Tài lěng le.;我昨天去医院看病了。|Wǒ zuótiān qù yīyuàn kànbìng le.`},
+13:{v:`可以|kěyǐ|có thể, được phép;再|zài|lại, thêm lần nữa;问题|wèntí|câu hỏi, vấn đề;卖|mài|bán;打电话|dǎ diànhuà|gọi điện thoại;一下|yíxià|một chút, thử;服务员|fúwùyuán|nhân viên phục vụ;女士|nǚshì|quý bà, cô;请|qǐng|xin, mời;坐|zuò|ngồi;给|gěi|cho;杯|bēi|ly, cốc;要|yào|muốn, gọi (món);早饭|zǎofàn|bữa sáng;这个|zhège|cái này;面包|miànbāo|bánh mì;鸡蛋|jīdàn|trứng gà;茶|chá|trà;先生|xiānsheng|ông, ngài;一半|yíbàn|một nửa`,
+g:`能愿动词“可以”|可以+động từ: có thể / được phép|我可以再问您一个问题吗？;动词 + 一下|làm thử, làm một chút (hành động ngắn)|你可以打电话问一下。;双宾语句 给 / 问|động từ + người + vật|请给我一杯牛奶。`,
+s:`我可以再问您一个问题吗？|Wǒ kěyǐ zài wèn nín yí gè wèntí ma?;你可以打电话问一下。|Nǐ kěyǐ dǎ diànhuà wèn yíxià.;请给我一杯牛奶。|Qǐng gěi wǒ yì bēi niúnǎi.;女士，请坐！|Nǚshì, qǐng zuò!;再要这个面包和鸡蛋吧。|Zài yào zhège miànbāo hé jīdàn ba.`},
+14:{v:`火车|huǒchē|tàu hỏa;中午|zhōngwǔ|buổi trưa;开|kāi|(xe) chạy, khởi hành;有些|yǒuxiē|một số;有的|yǒude|có (người, cái);了|le|đã (sau động từ);写|xiě|viết;都|dōu|đều;听见|tīngjiàn|nghe thấy;不要|búyào|đừng;说话|shuōhuà|nói chuyện;听|tīng|nghe;哪些|nǎxiē|những… nào;字|zì|chữ;汉语|Hànyǔ|tiếng Hán;汉字|Hànzì|chữ Hán;小学|xiǎoxué|tiểu học;小学生|xiǎoxuéshēng|học sinh tiểu học;中学|zhōngxué|trung học;上学|shàngxué|đi học;明年|míngnián|sang năm;晚|wǎn|muộn, tối`,
+g:`动态助词“了(2)”|động từ + 了: hành động đã xảy ra / hoàn thành (phủ định dùng 没, bỏ 了)|我看了一个电影。;离合词|từ ly hợp: 睡觉、上课、下班、生病、说话… có thể chen thành phần ở giữa|他睡了一觉。;范围副词“都”|“都”: đều, tất cả|我们都会写了。`,
+s:`我看了一个电影。|Wǒ kàn le yí gè diànyǐng.;我听不见。|Wǒ tīng bú jiàn.;我们都会写了。|Wǒmen dōu huì xiě le.;请大家不要说话！|Qǐng dàjiā búyào shuōhuà!;我会写这些字了。|Wǒ huì xiě zhèxiē zì le.`},
+15:{v:`爱|ài|yêu, thích;哪个|nǎge|cái nào;去年|qùnián|năm ngoái;男朋友|nánpéngyou|bạn trai;几|jǐ|mấy, vài;年|nián|năm;好玩儿|hǎowánr|vui, thú vị;西安|Xī'ān|Tây An;北京|Běijīng|Bắc Kinh;大兴机场|Dàxīng Jīchǎng|sân bay Đại Hưng;机场|jīchǎng|sân bay;飞机|fēijī|máy bay;家人|jiārén|người nhà;接|jiē|đón;早|zǎo|sớm;小时|xiǎoshí|giờ đồng hồ;时间|shíjiān|thời gian;住|zhù|ở, cư trú;要|yào|cần, mất (thời gian)`,
+g:`并列复句 “……，还/也……”|hai vế song song: …, còn / cũng…|我喜欢这个，也喜欢那个。;还 trong câu song song|thêm một ý nữa: còn…|我喜欢喝中国茶，还喜欢吃中国菜。;“也” + chủ ngữ mới|cũng như vậy|王老师是北京人，李文也是北京人。`,
+s:`你们爱吃哪个菜？|Nǐmen ài chī nǎge cài?;我喜欢这个，也喜欢那个。|Wǒ xǐhuan zhège, yě xǐhuan nàge.;去年我和男朋友去了西安。|Qùnián wǒ hé nánpéngyou qù le Xī'ān.;今年我想去北京。|Jīnnián wǒ xiǎng qù Běijīng.;北京非常漂亮。|Běijīng fēicháng piàoliang.`}};
+const P=(s,a=';',b='|')=>s.split(a).map(x=>x.split(b));
+const sh=a=>[...a].sort(()=>Math.random()-.5);
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z]/g,'').replace(/v/g,'u');
+const strip=s=>s.replace(/[，。？！、\s]/g,'');
+const $=id=>document.getElementById(id);
+let T=8,M='card',S={};
+const modes=[['card','Thẻ nhớ'],['quiz','Quiz'],['match','Ghép cặp'],['write','Viết chữ Hán'],['pen','Tập viết ✍️'],['type','Gõ pinyin'],['gram','Ngữ pháp'],['ex','Bài tập']];
+function nav(){
+ $('tests').innerHTML=[8,9,10,11,12,13,14,15].map(t=>`<button class="${t==T?'on':''}" onclick="T=${t};S={};go()">Bài ${t}</button>`).join('');
+ $('modes').innerHTML=modes.map(m=>`<button class="${m[0]==M?'on':''}" onclick="M='${m[0]}';S={};go()">${m[1]}</button>`).join('');
+}
+function go(){nav();({card,quiz,match,write,pen,type,gram,ex})[M]()}
+const V=()=>P(D[T].v);
+
+function card(){
+ if(!S.q){S.q=sh(V());S.n=0;S.f=false;S.known=0}
+ if(!S.q.length){$('v').innerHTML=`<div class="card c"><div class="mid">Xong! 🎉</div><p>Bạn đã nhớ ${S.known} từ.</p><button onclick="S={};go()">Học lại</button></div>`;return}
+ const [h,p,m]=S.q[0];
+ $('v').innerHTML=`<div class="card c" onclick="S.f=!S.f;card()" style="cursor:pointer"><div class="mut">Còn ${S.q.length} thẻ · chạm để lật</div>`+
+ (S.f?`<div class="big han">${h}</div><div class="mid">${p}</div><div class="mid" style="font-size:22px">${m}</div>`:`<div class="big han">${h}</div><div class="mut">Nghĩa là gì? Đọc thế nào?</div>`)+`</div>
+ <div class="row"><button onclick="S.q.push(S.q.shift());S.f=false;card()">Chưa nhớ ↻</button><button onclick="S.q.shift();S.known++;S.f=false;card()">Nhớ rồi ✓</button></div>`;
+}
+
+function quiz(){
+ if(S.s==null){S.s=0;S.t=0;S.mode=S.mode||'h2v'}
+ const v=V(),c=v[Math.random()*v.length|0];
+ const o=sh([c,...sh(v.filter(x=>x!=c)).slice(0,3)]);
+ const h2v=S.mode=='h2v';
+ S.c=c;
+ $('v').innerHTML=`<div class="row" style="margin:0"><button class="${h2v?'on':''}" onclick="S.mode='h2v';S.s=0;S.t=0;quiz()">Hán → nghĩa</button><button class="${h2v?'':'on'}" onclick="S.mode='v2h';S.s=0;S.t=0;quiz()">Nghĩa → Hán</button></div>
+ <div class="card c"><div class="mut">Đúng ${S.s}/${S.t}</div>${h2v?`<div class="big han">${c[0]}</div>`:`<div class="mid">${c[2]}</div><div class="mut">${c[1]}</div>`}
+ <div class="opts">${o.map((x,i)=>`<button class="${h2v?'':'han'}" id="o${i}" onclick="ans(${i},${x==c})">${h2v?x[2]:x[0]}</button>`).join('')}</div></div>`;
+}
+function ans(i,ok){
+ S.t++;if(ok)S.s++;$('o'+i).classList.add(ok?'ok':'no');
+ document.querySelectorAll('.opts button').forEach((b,j)=>{b.disabled=true;if(j!=i&&S.c&&b.textContent==(S.mode=='h2v'?S.c[2]:S.c[0]))b.classList.add('ok')});
+ setTimeout(quiz,ok?600:1300);
+}
+
+function match(){
+ const v=sh(V()).slice(0,6);
+ S.m={sel:null,left:6,items:sh([...v.map(x=>({k:x[0],t:x[0],h:1})),...v.map(x=>({k:x[0],t:x[2]}))])};
+ drawMatch();
+}
+function drawMatch(){
+ $('v').innerHTML=`<div class="card"><div class="mut c">Ghép chữ Hán với nghĩa tiếng Việt · còn ${S.m.left} cặp</div><div class="grid" style="margin-top:10px">${S.m.items.map((x,i)=>`<button id="m${i}" class="${x.h?'han':''} ${x.d?'done':''} ${S.m.sel===i?'sel':''}" onclick="pick(${i})">${x.t}</button>`).join('')}</div><div class="row"><button onclick="match()">Ván mới</button></div></div>`;
+}
+function pick(i){
+ const m=S.m,a=m.sel;
+ if(a==null){m.sel=i;drawMatch();return}
+ if(a==i){m.sel=null;drawMatch();return}
+ if(m.items[a].k==m.items[i].k&&!m.items[a].h!=!m.items[i].h){m.items[a].d=m.items[i].d=1;m.left--}
+ m.sel=null;drawMatch();
+ if(!m.left)$('v').insertAdjacentHTML('afterbegin','<div class="card c mid">Hoàn thành! 🎉</div>');
+}
+
+function type(){
+ if(!S.l){
+  S.l=sh(P(D[T].s));S.i=0;S.k=0;
+ }
+ if(S.i>=S.l.length){$('v').innerHTML=`<div class="card c"><div class="mid">Xong! ${S.k}/${S.l.length}</div><button onclick="S={};go()">Làm lại</button></div>`;return}
+ const [h,p]=S.l[S.i];
+ $('v').innerHTML=`<div class="card"><div class="mut">Câu ${S.i+1}/${S.l.length} · gõ pinyin (không cần dấu thanh, ü gõ u hoặc v)</div><div class="han c" style="font-size:30px;margin:14px 0">${h}</div><input id="t" autocomplete="off" autocapitalize="off" placeholder="pinyin…" onkeydown="if(event.key=='Enter')chk()"><div class="row"><button onclick="chk()">Kiểm tra</button><button onclick="alert('${p.replace(/'/g,"’")}')">Gợi ý</button><button onclick="S.i++;type()">Bỏ qua</button></div><div id="r" class="c" style="margin-top:10px"></div></div>`;
+ $('t').focus();
+}
+function chk(){
+ const p=S.l[S.i][1],ok=norm($('t').value)==norm(p);
+ $('r').innerHTML=ok?`<b style="color:var(--ok)">Đúng ✓</b><div class="mut">${p}</div>`:`<b style="color:var(--bad)">Chưa khớp</b><div class="mut">Đáp án: ${p}</div>`;
+ if(ok){S.k++}
+ setTimeout(()=>{S.i++;type()},ok?900:2200);
+}
+
+function gram(){
+ $('v').innerHTML=P(D[T].g).map(x=>`<div class="card"><div class="g"><b class="han" style="font-size:22px">${x[0]}</b><div>${x[1]}</div><div class="han" style="font-size:20px;margin-top:6px">${x[2]}</div></div></div>`).join('')+`<div class="mut c">Ví dụ lấy từ bài ${T} của sách.</div>`;
+}
+
+function write(){
+ if(!S.w){S.w=sh(V());S.i=0;S.k=0}
+ if(S.i>=S.w.length){$('v').innerHTML=`<div class="card c"><div class="mid">Xong! ${S.k}/${S.w.length}</div><button onclick="S={};go()">Làm lại</button></div>`;return}
+ const [h,p,m]=S.w[S.i];
+ $('v').innerHTML=`<div class="card c"><div class="mut">Từ ${S.i+1}/${S.w.length} · gõ chữ Hán (${h.length} chữ)</div><div class="mid">${m}</div><div class="mid" style="font-size:22px;color:var(--mut)">${p}</div><input id="t" class="han c" style="font-size:28px;margin-top:12px" autocomplete="off" onkeydown="if(event.key=='Enter')cw()"><div class="row"><button onclick="cw()">Kiểm tra</button><button onclick="$('r').innerHTML='<span class=han style=font-size:34px>${h}</span>'">Xem đáp án</button><button onclick="S.i++;write()">Bỏ qua</button></div><div id="r" class="c" style="margin-top:10px"></div></div>`;
+ $('t').focus();
+}
+function cw(){
+ const h=S.w[S.i][0],ok=$('t').value.trim()==h;
+ $('r').innerHTML=ok?`<b style="color:var(--ok)">Đúng ✓</b>`:`<b style="color:var(--bad)">Sai.</b> Đáp án: <span class="han" style="font-size:34px">${h}</span>`;
+ if(ok)S.k++;
+ setTimeout(()=>{S.i++;write()},ok?700:2200);
+}
+function seg(s){const ws=V().map(x=>x[0]).sort((a,b)=>b.length-a.length);s=s.replace(/[，。？！、\s]/g,'');const r=[];let i=0;while(i<s.length){const w=ws.find(w=>s.startsWith(w,i))||s[i];r.push(w);i+=w.length}return r}
+function ex(){
+ const v=V().map(x=>x[0]),ss=P(D[T].s).map(x=>x[0]);
+ S.ss=ss;S.cz=[];
+ ss.forEach(s=>{const w=v.filter(w=>s.includes(w)).sort((a,b)=>b.length-a.length)[0];if(w)S.cz.push([s.replace(w,'（　）'),w,sh([w,...sh(v.filter(x=>x!=w)).slice(0,3)])])});
+ $('v').innerHTML=`<div class="card"><b>Phần 1 – Điền từ vào chỗ trống</b>`+S.cz.map((x,i)=>`<div style="margin:14px 0"><div class="han" style="font-size:22px">${i+1}. ${x[0]}</div><div class="row" style="justify-content:flex-start">${x[2].map(o=>`<button class="han" style="font-size:20px" onclick="cz(this,${o==x[1]})">${o}</button>`).join('')}</div></div>`).join('')+`</div>
+ <div class="card"><b>Phần 2 – Sắp xếp thành câu</b>`+ss.map((x,i)=>`<div style="margin:14px 0"><div class="mut">${i+1}.</div><div class="ans han" id="a${i}"></div><div id="b${i}">${sh(seg(x)).map(w=>`<span class="pc han" onclick="add(${i},this)">${w}</span>`).join('')}</div><div class="row" style="justify-content:flex-start"><button onclick="ck(${i})">Kiểm tra</button><button onclick="rs(${i})">Làm lại</button></div><div id="r${i}"></div></div>`).join('')+`</div>`;
+}
+function cz(b,ok){b.classList.add(ok?'ok':'no');if(ok)b.parentNode.querySelectorAll('button').forEach(x=>x.disabled=true)}
+function add(i,e){$('a'+i).textContent+=e.textContent;e.style.visibility='hidden'}
+function rs(i){$('a'+i).textContent='';$('r'+i).textContent='';document.querySelectorAll('#b'+i+' .pc').forEach(e=>e.style.visibility='visible')}
+function ck(i){
+ const u=$('a'+i).textContent,a=S.ss[i].replace(/[，。？！、\s]/g,'');
+ $('r'+i).innerHTML=u==a?'<b style="color:var(--ok)">Đúng ✓</b>':`<b style="color:var(--bad)">Sai.</b> Đáp án: <span class="han">${S.ss[i]}</span>`;
+}
+function pen(){
+ const v=V();S.pi=S.pi||0;S.pm=S.pm||'t';S.st={};S.rd={};S.hist=[];
+ const [h,p,m]=v[S.pi],n=h.length,sz=Math.max(120,Math.min(300,Math.floor((Math.min(innerWidth,720)-56)/n)));
+ $('v').innerHTML=`<div class="card c"><div class="mut">Từ ${S.pi+1}/${v.length} · viết bằng Apple Pencil vào ô</div><div class="mid">${m}</div><div class="mid" style="font-size:22px;color:var(--mut)">${p}</div><div class="row">${[...h].map((c,i)=>`<div class="cell" style="width:${sz}px;height:${sz}px"><div class="g han" style="font-size:${Math.round(sz*.8)}px;opacity:${S.pm=='t'?.16:0}">${c}</div><canvas id="c${i}"></canvas></div>`).join('')}</div><div class="row"><button class="${S.pm=='t'?'on':''}" onclick="S.pm='t';pen()">Tô theo chữ mẫu</button><button class="${S.pm=='m'?'on':''}" onclick="S.pm='m';pen()">Viết theo trí nhớ</button><button onclick="peek()">Xem chữ mẫu</button></div><div class="row"><button onclick="undo()">↩ Hoàn tác</button><button onclick="clr()">Xóa hết</button><button class="${S.f?'on':''}" onclick="S.f=!S.f;pen()">Ngón tay: ${S.f?'Bật':'Tắt'}</button></div><div class="row"><button onclick="S.pi=(S.pi+${v.length}-1)%${v.length};pen()">← Trước</button><button onclick="S.pi=(S.pi+1)%${v.length};pen()">Sau →</button></div><div class="mut" style="margin-top:10px">Mặc định chỉ nhận nét bút Pencil (tay chạm bị bỏ qua để tránh lòng bàn tay). Không có bút thì bật “Ngón tay”.</div></div>`;
+ const ink=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim()||'#000',dpr=devicePixelRatio||1;
+ [...h].forEach((_,i)=>{
+  const c=$('c'+i);c.width=sz*dpr;c.height=sz*dpr;
+  const x=c.getContext('2d');x.scale(dpr,dpr);x.lineCap=x.lineJoin='round';x.strokeStyle=ink;
+  S.st[i]=[];let cur=null;
+  const pt=e=>{const r=c.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top,2.5+(e.pressure||.5)*5]};
+  const sg=(a,b)=>{x.lineWidth=b[2];x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(b[0],b[1]);x.stroke()};
+  c.onpointerdown=e=>{if(e.pointerType=='touch'&&!S.f)return;e.preventDefault();c.setPointerCapture(e.pointerId);cur=[pt(e)];sg(cur[0],cur[0])};
+  c.onpointermove=e=>{if(!cur)return;e.preventDefault();for(const q of (e.getCoalescedEvents?e.getCoalescedEvents():[e])){const b=pt(q);sg(cur[cur.length-1],b);cur.push(b)}};
+  c.onpointerup=c.onpointercancel=()=>{if(cur){S.st[i].push(cur);S.hist.push(i);cur=null}};
+  S.rd[i]=()=>{x.clearRect(0,0,sz,sz);for(const s of S.st[i])for(let k=0;k<s.length;k++)sg(s[Math.max(0,k-1)],s[k])};
+ });
+}
+function peek(){document.querySelectorAll('.cell .g').forEach(g=>{g.style.opacity=.35;setTimeout(()=>g.style.opacity=S.pm=='t'?.16:0,2000)})}
+function undo(){const i=S.hist.pop();if(i==null)return;S.st[i].pop();S.rd[i]()}
+function clr(){for(const i in S.st){S.st[i]=[];S.rd[i]()}S.hist=[]}
+go();
+</script>
+</body>
+</html>
